@@ -1,0 +1,1 @@
+<img class=" max-w-10 mx-auto" src="{{ asset('storage/image/tubankab.png') }}" alt="logorabbani-khitan" data-aos="fade-up" data-aos-anchor-placement="top-center">
