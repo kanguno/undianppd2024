@@ -8,6 +8,7 @@ use App\Models\Regs;
 use Livewire\WithPagination;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\RegDatasExport;
+use Illuminate\Support\Facades\Session;
 class RegDatas extends Component
 {
     use WithPagination;
@@ -44,25 +45,26 @@ class RegDatas extends Component
       $dataregs=$query->paginate($jmldata);
 
   // Kirim data ke view
-        return view('livewire.reg-datas', ['dataregs' => $dataregs])->layout('layouts.app');;
+        return view('livewire.reg-datas', ['dataregs' => $dataregs])->layout('layouts.app');
     }
 
-    public function setNotification($message, $type = 'success', $open = true)
+    public function setNotification($message, $type, $open=true)
     {
         $this->notification = $message;
         $this->notificationType = $type;
         $this->open = $open;
-        $this->dispatch('notification');
-    } 
+    }       
 
     public function ValidasiData($regid){
         
         $datareg=Regs::find($regid);
+        
         if($datareg->status_id===2){
-            session()->flash('notification', [
-                'message' => 'Data sedang divalidasi',
-                'type' => 'warning',
-                'open' => 'true'
+            // dd($datareg->status_id);
+           $cek= Session::flash('notification', [
+                'message' => 'Data Sedang Divalidasi',
+                'type' => 'error',
+                'open' => true,
             ]);
             $this->redirectRoute('regdatas');
             }
@@ -80,10 +82,10 @@ class RegDatas extends Component
             $datareg->update([
                 'status_id'=>'1'
             ]);
-            session()->flash('notification', [
-                'message' => 'Berhasil Reset Status',
-                'type' => 'warning',
-                'open' => 'true'
+            Session::flash('notification', [
+                'message' => 'Status Berhasil Direset',
+                'type' => 'success',
+                'open' => true,
             ]);
             $this->redirectRoute('regdatas');
     }
@@ -115,8 +117,12 @@ class RegDatas extends Component
     public function exportData($statusid)
     {
      
+        // Buat file sementara
+        if ($statusid=='0') {
+            
+           
             return Excel::download(new RegDatasExport($statusid), 'regs.xlsx');
-        
+        }
     }
     
 }

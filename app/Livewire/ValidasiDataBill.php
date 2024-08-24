@@ -6,7 +6,7 @@ use Livewire\Component;
 use Illuminate\Support\Facades\DB;
 use App\Models\Regs;
 use App\Models\Undians;
-
+use Illuminate\Support\Facades\Session;
 class ValidasiDataBill extends Component
 {
     public $regid = '';
@@ -101,19 +101,18 @@ class ValidasiDataBill extends Component
                         'reg_id'=>$this->regid,
                     ]);
 
-                    session()->flash('notification', [
-                        'message' => 'Berhasil Menyimpan Data',
+                    Session::flash('notification', [
+                        'message' => 'Data berhasil disimpan!',
                         'type' => 'success',
-                        'open' => 'true'
+                        'open' => true,
                     ]);
                     $this->redirectRoute('regdatas');
                     }
                     else{
-                        
-                        session()->flash('notification', [
+                        Session::flash('notification', [
                             'message' => 'Data Sudah Terdaftar dengan No Undian '.$cekundian->id,
-                            'type' => 'error',
-                            'open' => 'true'
+                            'type' => 'success',
+                            'open' => true,
                         ]);
                         $this->redirectRoute('regdatas');
                     }
@@ -142,10 +141,10 @@ class ValidasiDataBill extends Component
                         'keterangan' => $this->keterangan,
                     ]);
 
-                    session()->flash('notification', [
-                        'message' => 'Berhasil Menyimpan Data',
+                    Session::flash('notification', [
+                        'message' => 'Data berhasil disimpan!',
                         'type' => 'success',
-                        'open' => 'true'
+                        'open' => true,
                     ]);
                     $this->redirectRoute('regdatas');
                     }

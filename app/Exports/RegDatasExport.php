@@ -25,11 +25,15 @@ class RegDatasExport implements FromCollection, WithHeadings
         ->leftJoin('undians', 'regs.id', '=', 'undians.reg_id')
         ->select(
             'regs.id', 
-            DB::raw("CONCAT('\'', regs.nik) as nik"), 
+            DB::raw("CONCAT('/', regs.nik) as nik"), 
             'wp_datas.nm_wp as nm_wp', 
             'merchants.nm_merchant as nm_merchant', 
+            'regs.tgl_bill',
+            'regs.status_tappingbox',
+            'regs.tappingbox_id',
             'statuses.reg_status', 
-            'undians.id as no_undian'
+            'undians.id as no_undian',
+            'regs.keterangan'
         );
 
         if ($this->statusid > 0) {
@@ -49,8 +53,12 @@ class RegDatasExport implements FromCollection, WithHeadings
             'NIK',
             'Nama WP',
             'Nama Merchant',
+            'Tanggal Transaksi',
+            'Status di Tapping Box',
+            'Device ID',
             'Status',
-            'No Undian'
+            'No Undian',
+            'Keterangan'
         ];
     }
 }

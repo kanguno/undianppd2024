@@ -5,8 +5,10 @@
 
         <!-- Notification Handling -->
         <x-loading/>
-
-        @if ($notification)
+        
+        
+        @if (!empty($notification))
+        
         <div x-data="{ open: @entangle('open'), notificationType: @entangle('notificationType') }"
              x-show="open"
              x-transition:enter="transition ease-out duration-300"
@@ -25,6 +27,7 @@
                  class="relative bg-white text-center font-semibold rounded-2xl shadow-lg p-4 max-w-md mx-auto"
                  role="alert"
                  aria-live="assertive">
+                 
                 <button @click="open = false" class="absolute top-2 right-2 text-gray-900" aria-label="Close notification">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -58,7 +61,7 @@
             <div class="flex gap-4 justify-end my-5">
                 <button onclick="window.location.reload();" class="bg-slate-500 hover:bg-gray-700 text-white py-2 px-4 rounded-lg">
                     Kembali</button>
-                <button class="ml-4 bg-[#00bcd5] hover:bg-blue-700 text-white px-4 py-2 rounded-lg" wire:click="regbaru">
+                <button class="ml-4 bg-[#00bcd5] hover:bg-blue-700 text-white px-4 py-2 rounded-lg" wire:click="tambahreg">
                     Lanjutkan</button>
             </div>
             @else
@@ -77,7 +80,7 @@
         @endif
 
         <!-- Additional Data Form -->
-        @if ($formstatus === 1)
+        @if ($formstatus == 1)
         <form wire:submit.prevent="regSave" class="grid">
             <div class="mb-4">
                 <label for="nik-display" class="block text-gray-700 text-sm font-bold mb-2">NIK</label>
@@ -128,7 +131,7 @@
             </div>
 
             <div class="mb-4">
-                <label for="tglbill" class="block text-gray-700 text-sm font-bold mb-2">Tanggal Transaksi</label>
+                <label for="tglbill" class="block text-gray-700 text-sm font-bold mb-2">Tanggal Transaksi (Tanggal yang Tercatat di Bill/Struk)</label>
                 <input wire:model.defer="tglbill" type="date" id="tglbill" name="tglbill"
                        min="2024-08-17" max="2024-10-30"
                        class="shadow bg-[#e5e7eb] text-md appearance-none border-none rounded w-full py-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
@@ -136,7 +139,7 @@
             </div>
 
             <div class="mb-4">
-                <label for="jambill" class="block text-gray-700 text-sm font-bold mb-2">Jam Transaksi</label>
+                <label for="jambill" class="block text-gray-700 text-sm font-bold mb-2">Jam Transaksi Tanggal Transaksi (Jam yang Tercatat di Bill/Struk)</label>
                 <input wire:model.defer="jambill" type="time" id="jambill" name="jambill"
                        min="00:00:00" max="24:59:59" step="2"
                        class="shadow bg-[#e5e7eb] text-md appearance-none border-none rounded w-full py-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
@@ -144,7 +147,7 @@
             </div>
 
             <div class="mb-4">
-                <label for="photo" class="block text-gray-700 text-sm font-bold mb-2">Photo</label>
+                <label for="photo" class="block text-gray-700 text-sm font-bold mb-2">Foto Bill/Struk (Setelah Upload Mohon Tunggu Sampai Foto Ditampilkan)</label>
                 <input type="file" id="photo" wire:model="photo" accept="image/*"
                        class="shadow bg-[#e5e7eb] text-md appearance-none border-none rounded w-full py-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                 @error('photo') <p class="text-red-600 mb-4">{{ $message }}</p> @enderror
@@ -160,3 +163,19 @@
         @endif
     </div>
 </div>
+<script>
+    document.addEventListener('livewire:load', function () {
+    window.addEventListener('notification', event => {
+        const { notification, type, open } = event.detail;
+
+        if (open) {
+            // Menampilkan notifikasi. Ganti dengan library atau metode notifikasi pilihanmu
+            alert(`${type.toUpperCase()}: ${notification}`);
+
+            // Jika kamu menggunakan library notifikasi seperti Toastr atau SweetAlert, gunakan library tersebut di sini
+            // toastr[type](notification); // Contoh menggunakan Toastr
+        }
+    });
+});
+
+</script>

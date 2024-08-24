@@ -18,7 +18,7 @@ class Dashboard extends Component
         )
         ->first();
         // dd($dataregs);
-        return view('livewire.dashboard', ['dataregs' => $dataregs])->layout('layouts.app');;
+        return view('livewire.dashboard', ['dataregs' => $dataregs])->layout('layouts.app');
     }
     public function regDatas($statusid){
         $this->redirectRoute('regdatastatus', $statusid);
