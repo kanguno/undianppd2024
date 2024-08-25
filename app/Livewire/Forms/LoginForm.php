@@ -32,6 +32,7 @@ class LoginForm extends Form
 
         if (! Auth::attempt($this->only(['email', 'password']), $this->remember)) {
             RateLimiter::hit($this->throttleKey());
+            
 
             throw ValidationException::withMessages([
                 'form.email' => trans('auth.failed'),

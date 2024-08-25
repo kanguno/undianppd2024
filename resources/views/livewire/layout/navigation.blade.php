@@ -36,9 +36,12 @@ new class extends Component
                     <x-nav-link :href="route('regdatas')" :active="request()->routeIs('regdatas')" wire:navigate>
                         {{ __('Validasi') }}
                     </x-nav-link>
+                    @if(auth()->user()->name='admin')
+                    
                     <x-nav-link :href="route('merchants')" :active="request()->routeIs('merchants')" wire:navigate>
                         {{ __('Merchant') }}
                     </x-nav-link>
+                    @endif
                 </div>
             </div>
 

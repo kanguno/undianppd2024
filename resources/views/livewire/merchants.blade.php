@@ -5,7 +5,6 @@
     @if($notification)
     <x-notif/>
     @endif
-    
     @if($modalinfo)
     
         <div x-data="{ modalopen: @entangle('modalopen'), notificationType: @entangle('notificationType') }"
